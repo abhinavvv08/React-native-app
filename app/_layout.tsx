@@ -1,39 +1,33 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
+import {  Stack } from "expo-router";
+import { useFonts } from "expo-font";
+import './global.css'
+import { useEffect } from "react";
+import GlobalProvider from "@/lib/global-provider";
+import * as SplashScreen from "expo-splash-screen";
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+  
+  const [fontsLoaded] = useFonts({
+    "Rubik-ExtraBold" : require('../assets/fonts/Rubik-ExtraBold.ttf'),
+    "Rubik-Light" : require('../assets/fonts/Rubik-Light.ttf'),
+    "Rubik-Medium" : require('../assets/fonts/Rubik-Medium.ttf'),
+    "Rubik-Regular" : require('../assets/fonts/Rubik-Regular.ttf'),
+    "Rubik-Semi" : require('../assets/fonts/Rubik-Semi.ttf'),
   });
-
-  useEffect(() => {
-    if (loaded) {
+  //if the fonts have loaded we can move out of the splash screen
+  /*useEffect(() =>{
+    if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [fontsLoaded]);
 
-  if (!loaded) {
-    return null;
-  }
+  if(!fontsLoaded) return null;*/
 
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+  //screenOptions hides the tabs thing which was being shown above on the top of the app
+  return( 
+
+    <GlobalProvider>
+      <Stack screenOptions={{headerShown : false}}/>
+    </GlobalProvider>
+    )
 }
+// ios 126956906790-6udke76295uhmtbhvha46j88vbr1p8mc.apps.googleusercontent.com
